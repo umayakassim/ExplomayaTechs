@@ -1,0 +1,131 @@
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+export default function HomePage() {
+  const [company, setCompany] = useState("");
+  const [pentestResult, setPentestResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handlePentest = () => {
+    if (company.trim()) {
+      setLoading(true);
+      setPentestResult(null);
+      setTimeout(() => {
+        setPentestResult(
+          `Scan complete for ${company}. No critical vulnerabilities found. Minor misconfigurations detected.`
+        );
+        setLoading(false);
+      }, 2000); // Simulate delay
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      {/* Hero Section */}
+      <section className="py-20 px-6 text-center bg-white">
+        <h1 className="text-4xl font-bold mb-4">
+          Empowering SMEs with Smart Tech, AI Solutions & Secure Digital Growth.
+        </h1>
+        <p className="text-lg mb-6 max-w-xl mx-auto">
+          We design secure websites, run digital marketing campaigns, and integrate AI tools to grow your business — affordably and efficiently.
+        </p>
+        <div className="flex justify-center gap-4">
+          <Button>Get a Free Consultation</Button>
+          <Button variant="outline">View Our Work</Button>
+        </div>
+      </section>
+
+      {/* Services Overview */}
+      <section className="py-16 px-6 bg-gray-100">
+        <h2 className="text-3xl font-semibold text-center mb-10">What We Do</h2>
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {[
+            { title: "Cybersecurity Audits", desc: "Protect your business from hackers" },
+            { title: "Website Design & Hosting", desc: "Fast, modern, mobile-ready websites" },
+            { title: "Digital Marketing", desc: "Run ads, grow your brand, automate content" },
+            { title: "AI Automation", desc: "Chatbots, dashboards, sales predictions" },
+            { title: "Startup Incubation", desc: "MVPs, monetization, mentorship" },
+          ].map((item, i) => (
+            <Card key={i} className="shadow-md">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p>{item.desc}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Pentest Section */}
+      <section className="py-16 px-6 bg-white">
+        <h2 className="text-3xl font-semibold text-center mb-6">Free Pentest Check</h2>
+        <div className="max-w-xl mx-auto text-center">
+          <input
+            type="text"
+            placeholder="Enter your company name or domain"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            className="w-full p-3 border rounded mb-4"
+          />
+          <Button onClick={handlePentest} disabled={loading}>
+            {loading ? "Running..." : "Run Pentest"}
+          </Button>
+          {loading && (
+            <div className="mt-4 h-2 bg-gray-200 rounded overflow-hidden">
+              <div className="w-full h-full bg-blue-500 animate-pulse"></div>
+            </div>
+          )}
+          {pentestResult && (
+            <div className="mt-6 p-4 bg-green-100 border border-green-300 rounded">
+              <p className="text-lg font-medium">{pentestResult}</p>
+              <p className="mt-2 text-gray-700">
+                For a detailed report or professional consultation:
+              </p>
+              <Button variant="link" className="text-primary">Consult Us</Button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Packages Section */}
+      <section className="py-16 px-6">
+        <h2 className="text-3xl font-semibold text-center mb-10">Our Packages</h2>
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {[
+            {
+              title: "Starter Growth",
+              price: "KSh 10,000",
+              features: "1-page website, logo, IG setup, Free audit",
+            },
+            {
+              title: "Business Pro",
+              price: "KSh 25,000",
+              features: "5-page site, chatbot, ads setup, WhatsApp CTA",
+            },
+            {
+              title: "Smart Scale",
+              price: "KSh 3,000/month",
+              features: "Hosting, AI & security, Monthly reports",
+            },
+          ].map((item, i) => (
+            <Card key={i} className="shadow-md">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                <p className="text-lg text-primary font-semibold mb-2">{item.price}</p>
+                <p>{item.features}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-primary text-white text-center">
+        <h2 className="text-3xl font-bold mb-4">Ready to scale your business with smart, secure tech?</h2>
+        <Button size="lg" className="text-lg">Get Started Today</Button>
+      </section>
+    </div>
+  );
+}
+
